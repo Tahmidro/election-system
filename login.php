@@ -16,11 +16,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user = $result->fetch_assoc();
 
         if (password_verify($password, $user['password_hash'])) {
+            // Set session
             $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['role'] = $user['role'];
 
-            header("Location: dashboard.php");
-            exit;
+            // Redirect based on role
+            if ($_SESSION['role'] === 'voter') {
+                header("Location: dashboard_voter.php");
+                exit;
+            } elseif ($_SESSION['role'] === 'admin') {
+                header("Location: dashboard_admin.php");
+                exit;
+            } elseif ($_SESSION['role'] === 'candidate') {
+                header("Location: dashboard_candidate.php");
+                exit;
+            } else {
+                $error = "Unknown role!";
+            }
+
         } else {
             $error = "Invalid password!";
         }
