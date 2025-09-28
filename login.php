@@ -2,6 +2,10 @@
 session_start();
 include "config.php";
 
+if (isset($_SESSION['success'])) {
+    echo "<p style='color:green;'>" . htmlspecialchars($_SESSION['success']) . "</p>";
+    unset($_SESSION['success']);}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
