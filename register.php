@@ -2,7 +2,7 @@
 
 <?php
 session_start();
-include "config.php"; // must contain $conn = new mysqli(...)
+include "config.php"; 
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $name     = trim($_POST["name"]);
@@ -14,10 +14,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (empty($name) || empty($email) || empty($password) || empty($role) || empty($nid)) {
         $error = "All fields  are required.";
     } else {
-        // Hash password
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-        // Insert user
         $sql = "INSERT INTO users (name, email, password_hash, role, nid) 
                 VALUES (?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
@@ -30,7 +28,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if ($stmt->execute()) {
             $user_id = $conn->insert_id;
 
-            // Insert voter or candidate profile
             if ($role === "voter") {
                 $stmt2 = $conn->prepare("INSERT INTO voters (user_id) VALUES (?)");
                 $stmt2->bind_param("i", $user_id);
@@ -117,3 +114,4 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <p><a href="login.php">Already have an account? Login here</a></p>
 </body>
 </html>
+
