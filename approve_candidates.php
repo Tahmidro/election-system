@@ -2,13 +2,11 @@
 session_start();
 include "config.php";
 
-// Ensure only admin can access
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     header("Location: login.php");
     exit;
 }
 
-// Fetch all candidates waiting for approval
 $sql = "SELECT u.name,u.email,u.nid,c.status,c.candidate_id FROM candidates c JOIN users u ON c.user_id = u.user_id WHERE c.status = 'pending';";
 $result = $conn->query($sql);
 ?>
@@ -49,3 +47,4 @@ $result = $conn->query($sql);
     <p><a href="dashboard_admin.php">⬅ Back to Dashboard</a></p>
 </body>
 </html>
+
