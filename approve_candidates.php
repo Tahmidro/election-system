@@ -38,6 +38,7 @@ $result = $conn->query($sql);
                 <td>
                     <?php if ($row['status'] !='approved') { ?>
                         <a href="approve_candidate.php?candidate_id=<?php echo $row['candidate_id']; ?>">Approve</a>
+                        <a href="reject_candidate.php?candidate_id=<?php echo $row['candidate_id']; ?>">reject</a>
                     <?php } else { ?>
                         ✅ Already Approved
                     <?php } ?>

@@ -2,16 +2,15 @@
 session_start();
 include "config.php";
 
-// Ensure only admin can approve
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     header("Location: login.php");
     exit;
 }
 
-if (isset($_GET['user_id'])) {
-    $user_id = intval($_GET['user_id']); // ensure it's safe
-    $stmt = $conn->prepare("delete from users WHERE user_id = ?");
-    $stmt->bind_param("i", $user_id);
+if (isset($_GET['candidate_id'])) {
+    $candidate_id = intval($_GET['candidate_id']);
+    $stmt = $conn->prepare("delete from candidates WHERE candidate_id = ?");
+    $stmt->bind_param("i", $candidate_id);
     $stmt->execute();
 }
 

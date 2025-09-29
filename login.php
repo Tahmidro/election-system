@@ -10,7 +10,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    // Get user
     $stmt = $conn->prepare("SELECT * FROM users WHERE email=?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
@@ -20,11 +19,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user = $result->fetch_assoc();
 
         if (password_verify($password, $user['password_hash'])) {
-            // Set session
             $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['role'] = $user['role'];
 
-            // Redirect based on role
             if ($_SESSION['role'] === 'voter') {
                 header("Location: dashboard_voter.php");
                 exit;

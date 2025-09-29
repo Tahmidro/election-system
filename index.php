@@ -1,7 +1,11 @@
 <?php
 session_start();
+if (isset($_SESSION['flash_msg'])) {
+    echo "<p style='color:white;'>".htmlspecialchars($_SESSION['flash_msg'])."</p>";
+    unset($_SESSION['flash_msg']); 
+}
 
-// If user already logged in, redirect directly to dashboard
+
 if (isset($_SESSION['role'])) {
     if ($_SESSION['role'] === 'admin') {
         header("Location: dashboard_admin.php");
