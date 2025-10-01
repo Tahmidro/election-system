@@ -3,7 +3,6 @@
 <?php
 session_start();
 include "config.php"; 
-include "config.php"; 
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $name     = trim($_POST["name"]);
@@ -15,7 +14,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (empty($name) || empty($email) || empty($password) || empty($role) || empty($nid)) {
         $error = "All fields are required.";
     } else {
-        $sql_check = "SELECT user_id FROM users WHERE nid = ?";
+        // Check duplicate NID
+        $sql_check = "SELECT id FROM users WHERE nid = ?";
         $stmt_check = $conn->prepare($sql_check);
         $stmt_check->bind_param("s", $nid);
         $stmt_check->execute();
@@ -25,20 +25,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $error = "This NID is already registered.";
         } else {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
             $sql = "INSERT INTO users (name, email, password_hash, role, nid) 
                     VALUES (?, ?, ?, ?, ?)";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("sssss", $name, $email, $hashed_password, $role, $nid);
-        $sql = "INSERT INTO users (name, email, password_hash, role, nid) 
-                VALUES (?, ?, ?, ?, ?)";
-        $stmt = $conn->prepare($sql);
-        if (!$stmt) {
-            die("Prepare failed: " . $conn->error);
-        }
-
-        $stmt->bind_param("sssss", $name, $email, $hashed_password, $role, $nid);
 
             if ($stmt->execute()) {
                 $user_id = $conn->insert_id;
@@ -59,22 +50,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             } else {
                 $error = "Registration failed: " . $stmt->error;
             }
-            if ($role === "voter") {
-                $stmt2 = $conn->prepare("INSERT INTO voters (user_id) VALUES (?)");
-                $stmt2->bind_param("i", $user_id);
-                $stmt2->execute();
-                $_SESSION['success'] = "User registered successfully! Please log in.";
-
-            } elseif ($role === "candidate") {
-                $stmt2 = $conn->prepare("INSERT INTO candidates (user_id) VALUES (?)");
-                $stmt2->bind_param("i", $user_id);
-                $stmt2->execute();
-                $_SESSION['success'] = "Candidate registered. Waiting for admin approval.";
-            }
-            header("Location: login.php");
-            exit;
-        } else {
-            $error = "Registration failed: " . $stmt->error;
         }
     }
 }
