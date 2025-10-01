@@ -43,13 +43,26 @@ $result = $conn->query($sql);
         tr:hover {
             background-color: #f1f1f1;
         }
-        a {
+        a.button {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 6px;
+            color: #fff;
             text-decoration: none;
-            color: #007BFF;
-            margin: 0 5px;
+            font-weight: bold;
+            margin: 2px;
         }
-        a:hover {
-            text-decoration: underline;
+        a.approve {
+            background-color: #28a745;
+        }
+        a.approve:hover {
+            background-color: #218838;
+        }
+        a.reject {
+            background-color: #dc3545;
+        }
+        a.reject:hover {
+            background-color: #c82333;
         }
         .approved {
             color: green;
@@ -92,8 +105,8 @@ $result = $conn->query($sql);
                     </td>
                     <td>
                         <?php if ($row['status'] !='approved') { ?>
-                            <a href="approve_candidate.php?candidate_id=<?php echo $row['candidate_id']; ?>">Approve</a>
-                            <a href="reject_candidate.php?candidate_id=<?php echo $row['candidate_id']; ?>">Reject</a>
+                            <a href="approve_candidate.php?candidate_id=<?php echo $row['candidate_id']; ?>" class="button approve">Approve</a>
+                            <a href="reject_candidate.php?candidate_id=<?php echo $row['candidate_id']; ?>" class="button reject">Reject</a>
                         <?php } else { ?>
                             ✅ Already Approved
                         <?php } ?>
@@ -109,4 +122,5 @@ $result = $conn->query($sql);
     <a href="dashboard_admin.php" class="btn-back">⬅ Back to Dashboard</a>
 </body>
 </html>
+
 
