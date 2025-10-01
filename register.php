@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $error = "All fields are required.";
     } else {
         // Check duplicate NID
-        $sql_check = "SELECT id FROM users WHERE nid = ?";
+        $sql_check = "SELECT user_id FROM users WHERE nid = ?";
         $stmt_check = $conn->prepare($sql_check);
         $stmt_check->bind_param("s", $nid);
         $stmt_check->execute();
@@ -192,4 +192,5 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     </script>
 </body>
 </html>
+
 
