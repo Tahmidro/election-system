@@ -24,7 +24,7 @@ if($row==null){
 }
 
 // Handle party & manifesto update
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $status === 'approved') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $party = trim($_POST['party']);
     $manifesto = trim($_POST['manifesto']);
 
@@ -123,15 +123,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $status === 'approved') {
 
     <?php if(isset($success)) echo "<p class='success'>$success</p>"; ?>
     <?php if(isset($error)) echo "<p class='error'>$error</p>"; ?>
-
-    <?php if($status === 'approved'): ?>
-      <form method="POST">
+    <form method="POST">
         <h3>Update Party & Manifesto</h3>
         <input type="text" name="party" placeholder="Enter Party Name" value="<?php echo htmlspecialchars($party); ?>" required>
         <textarea name="manifesto" placeholder="Write your manifesto here..." required><?php echo htmlspecialchars($manifesto); ?></textarea>
         <button type="submit">Save Details</button>
       </form>
-      <p><a href="view_results.php">View Results</a></p>
+
+    <?php if($status === 'approved'): ?>
+      
+    <p><a href="view_results.php">View Results</a></p>
 
     <?php elseif($status === 'deleted'): ?>
       <p style="color:red;">You are not qualified as a candidate.</p>
