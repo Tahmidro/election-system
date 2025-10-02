@@ -61,9 +61,11 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'voter') {
     <div class="container">
         <h2>Welcome Voter</h2>
         <a href="face_auth.php" class="button">Verify Face & Vote</a>
+        <a href="voter_register.php" class="button">Register as a voter</a>
         <a href="view_results.php" class="button">View Results</a>
         <a href="logout.php" class="button logout">Logout</a>
     </div>
 </body>
 </html>
+
 
