@@ -7,7 +7,10 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     exit;
 }
 
-$sql = "SELECT u.name,u.email,u.nid,c.status,c.candidate_id FROM candidates c JOIN users u ON c.user_id = u.user_id WHERE c.status = 'pending';";
+$sql = "SELECT u.name,u.email,u.nid,c.status,c.candidate_id,c.party,c.manifesto 
+        FROM candidates c 
+        JOIN users u ON c.user_id = u.user_id 
+        WHERE c.status = 'pending';";
 $result = $conn->query($sql);
 ?>
 <!DOCTYPE html>
@@ -91,6 +94,8 @@ $result = $conn->query($sql);
             <th>Name</th>
             <th>Email</th>
             <th>NID</th>
+            <th>Party</th>
+            <th>Manifesto</th>
             <th>Status</th>
             <th>Action</th>
         </tr>
@@ -100,6 +105,10 @@ $result = $conn->query($sql);
                     <td><?php echo htmlspecialchars($row['name']); ?></td>
                     <td><?php echo htmlspecialchars($row['email']); ?></td>
                     <td><?php echo htmlspecialchars($row['nid']); ?></td>
+                    <td><?php echo htmlspecialchars($row['party']); ?></td>
+                    <td style="max-width:200px; text-align:left;">
+                        <?php echo nl2br(htmlspecialchars($row['manifesto'])); ?>
+                    </td>
                     <td class="<?php echo $row['status']=='approved' ? 'approved' : ''; ?>">
                         <?php echo ($row['status'] == 'approved') ? "Approved" : "Pending"; ?>
                     </td>
@@ -115,12 +124,11 @@ $result = $conn->query($sql);
             <?php } ?>
         <?php else: ?>
             <tr>
-                <td colspan="5">No pending candidates.</td>
+                <td colspan="7">No pending candidates.</td>
             </tr>
         <?php endif; ?>
     </table>
     <a href="dashboard_admin.php" class="btn-back">⬅ Back to Dashboard</a>
 </body>
 </html>
-
 
