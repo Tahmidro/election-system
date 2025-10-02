@@ -55,6 +55,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     <h2>Admin Dashboard</h2>
     <ul>
       <li><a href="approve_candidates.php">Approve Candidates</a></li>
+      <li><a href="approve_voters.php">Approve voters</a></li>
       <li><a href="create_election.php">Create Election</a></li>
       <li><a href="assign_candidates.php">Assign Candidates</a></li>
       <li><a href="view_results.php">View Live Results</a></li>
@@ -63,3 +64,4 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
   </div>
 </body>
 </html>
+
